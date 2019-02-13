@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,10 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -32,7 +35,12 @@ public class Robot extends IterativeRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private DifferentialDrive drive;
+  private Compressor compressor;
   private XboxController controller;
+  private DoubleSolenoid shaft1;
+  private DoubleSolenoid shaft2;
+
+  private Timer autoTimer;
 
   @Override
   public void robotInit() { // Initialize Robot
@@ -41,6 +49,7 @@ public class Robot extends IterativeRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
     
+    // TODO: Set PWMs
     // PWM for Leftside motors
     PWMTalonSRX top_Left = new PWMTalonSRX(2);
     PWMTalonSRX bottom_Left = new PWMTalonSRX(2);
@@ -52,7 +61,12 @@ public class Robot extends IterativeRobot {
     SpeedControllerGroup rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
     
     drive = new DifferentialDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
-    controller = new XboxController(0); // Initialize Controller
+    controller = new XboxController(0); // Initialize Controller TODO
+    compressor = new Compressor(0); // Initialize compressor TODO
+    compressor.setClosedLoopControl(true); // Start compressor
+    // TODO: Set Solenoid Channels
+    shaft1 = new DoubleSolenoid(1, 2);
+    shaft2 = new DoubleSolenoid(2, 3);
   }
 
   @Override
@@ -60,12 +74,30 @@ public class Robot extends IterativeRobot {
     // Curvature Drive
     double xSpeed = controller.getY(GenericHID.Hand.kLeft);
     double zRotation = controller.getX(GenericHID.Hand.kRight);
-    boolean quickTurn = controller.getBumper(GenericHID.Hand.kLeft);
+    boolean quickTurn = controller.getStickButton(GenericHID.Hand.kRight);
     drive.curvatureDrive(xSpeed, zRotation, quickTurn);
+
+    // TODO: Better implementation ?
+    // Hatch Mechanism
+    if (controller.getBumper(GenericHID.Hand.kLeft)) { // Left Bumper is pressed
+      // hatch is extended
+      shaft1.set(DoubleSolenoid.Value.kForward);
+      shaft2.set(DoubleSolenoid.Value.kForward);
+    } else if (controller.getBumper(GenericHID.Hand.kRight)) { // Right Bumper is pressed
+      // Retract both solenoids
+      shaft1.set(DoubleSolenoid.Value.kReverse);
+      shaft2.set(DoubleSolenoid.Value.kReverse);
+    } else if (controller.getBumperReleased(GenericHID.Hand.kLeft) || controller.getBumperReleased(GenericHID.Hand.kRight)) { // If either bumper is released
+      // Turn off solenoids
+      shaft1.set(DoubleSolenoid.Value.kOff);
+      shaft2.set(DoubleSolenoid.Value.kOff);
+    }
   }
 
   @Override
   public void robotPeriodic() { // UP Every "Robot Packet" / Debug output
+    System.out.println("<Compressor> Status: " + compressor.getClosedLoopControl());
+    System.out.println("<Compressor> Pressure level: " + compressor.getPressureSwitchValue() + "PSI");
   }
 
   /**
@@ -81,9 +113,18 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void autonomousInit() {
+    autoTimer = new Timer(); // Initialize autonomous timer
+    autoTimer.start(); // Start timer
+    
     m_autoSelected = m_chooser.getSelected();
     // autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    if (autoTimer.get() < 3.0) {
+      drive.tankDrive(-0.2, -0.2, false);
+    } else { 
+      drive.stopMotor();
+    }
   }
 
   /**
