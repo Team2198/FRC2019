@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,32 +22,41 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
+
+  // Selector vars
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
-   */
+  private DifferentialDrive drive;
+
   @Override
-  public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+  public void robotInit() { // Initialize Robot
+
+    /* m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putData("Auto choices", m_chooser); */
+    
+    // PWM for Leftside motors
+    PWMTalonSRX top_Left = new PWMTalonSRX(2);
+    PWMTalonSRX bottom_Left = new PWMTalonSRX(2);
+    // PWM for Rightside motors
+    PWMTalonSRX top_Right = new PWMTalonSRX(2);
+    PWMTalonSRX bottom_Right = new PWMTalonSRX(2);
+    // LR SpeedControllers
+    SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
+    SpeedControllerGroup rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
+    
+    drive = new DifferentialDrive(leftMotors, rightMotors); // Instantiate DifferentialDrive
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
   @Override
-  public void robotPeriodic() {
+  public void teleopPeriodic() { // Teleop UPS
+  }
+
+  @Override
+  public void robotPeriodic() { // UP Every "Robot Packet" / Debug output
   }
 
   /**
@@ -61,8 +73,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
+    // autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
   }
 
@@ -83,16 +94,14 @@ public class Robot extends IterativeRobot {
   }
 
   /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-  }
-
-  /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+  }
+
+  @Override
+  public void disabledInit(){ // Shutdown
+    drive.stopMotor(); // Stop motors when robot shuts down
   }
 }
