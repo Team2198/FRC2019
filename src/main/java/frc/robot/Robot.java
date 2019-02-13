@@ -7,9 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,7 @@ public class Robot extends IterativeRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private DifferentialDrive drive;
+  private XboxController controller;
 
   @Override
   public void robotInit() { // Initialize Robot
@@ -48,11 +51,17 @@ public class Robot extends IterativeRobot {
     SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
     SpeedControllerGroup rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
     
-    drive = new DifferentialDrive(leftMotors, rightMotors); // Instantiate DifferentialDrive
+    drive = new DifferentialDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
+    controller = new XboxController(0); // Initialize Controller
   }
 
   @Override
   public void teleopPeriodic() { // Teleop UPS
+    // Curvature Drive
+    double xSpeed = controller.getY(GenericHID.Hand.kLeft);
+    double zRotation = controller.getX(GenericHID.Hand.kRight);
+    boolean quickTurn = controller.getBumper(GenericHID.Hand.kLeft);
+    drive.curvatureDrive(xSpeed, zRotation, quickTurn);
   }
 
   @Override
