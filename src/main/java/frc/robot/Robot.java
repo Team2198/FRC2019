@@ -7,17 +7,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.systems.ParadigmSystem;
+import frc.robot.systems.Driver;
+import frc.robot.systems.Hatch;
+import frc.robot.systems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +31,9 @@ public class Robot extends IterativeRobot { // TODO: INTEGRATE SYSTEMS
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-    private XboxController controller;
+    private XboxController controller = new XboxController(0); // TODO: Set Controller Port
+    ParadigmSystem[] systems = {new Driver(controller), new Hatch(controller), new Shooter(controller)};
+
 
     private Timer autoTimer;
 
@@ -45,17 +44,20 @@ public class Robot extends IterativeRobot { // TODO: INTEGRATE SYSTEMS
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
 
+        for (ParadigmSystem system : systems) { // Enable systems
+            system.enable();
+        }
     }
 
     @Override
     public void teleopPeriodic() { // Teleop UPS
-
+        for (ParadigmSystem system : systems) { // Update systems
+            system.update();
+        }
     }
 
     @Override
     public void robotPeriodic() { // UP Every "Robot Packet" / Debug output
-        System.out.println("<Compressor> Status: " + compressor.getClosedLoopControl());
-        System.out.println("<Compressor> Pressure level: " + compressor.getPressureSwitchValue() + "PSI");
     }
 
     /**
@@ -79,9 +81,9 @@ public class Robot extends IterativeRobot { // TODO: INTEGRATE SYSTEMS
         System.out.println("Auto selected: " + m_autoSelected);
 
         if (autoTimer.get() < 3.0) {
-          //  drive.tankDrive(-0.2, -0.2, false);
+            //  drive.tankDrive(-0.2, -0.2, false);
         } else {
-          //  drive.stopMotor();
+            //  drive.stopMotor();
         }
     }
 
@@ -110,6 +112,8 @@ public class Robot extends IterativeRobot { // TODO: INTEGRATE SYSTEMS
 
     @Override
     public void disabledInit() { // Shutdown
-
+        for (ParadigmSystem system : systems) { // Disable systems
+            system.disable();
+        }
     }
 }

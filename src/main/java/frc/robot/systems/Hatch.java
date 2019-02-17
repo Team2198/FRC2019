@@ -1,4 +1,4 @@
-package frc.robot.systems.hatch;
+package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -9,7 +9,7 @@ import frc.robot.systems.ParadigmSystem;
 public class Hatch extends ParadigmSystem {
 
     private Compressor compressor;
-    private DoubleSolenoid[] solenoids = {new DoubleSolenoid(1, 2), new DoubleSolenoid(2, 3)};
+    private DoubleSolenoid[] solenoids = {new DoubleSolenoid(1, 2), new DoubleSolenoid(2, 3)}; // TODO: Set Solenoid Channels
 
     public Hatch(XboxController controller) {
         super("Hatch", controller);
@@ -32,11 +32,14 @@ public class Hatch extends ParadigmSystem {
             solenoids[0].set(DoubleSolenoid.Value.kOff);
             solenoids[1].set(DoubleSolenoid.Value.kOff);
         }
+
+        log("<Compressor> Status: " + compressor.getClosedLoopControl());
+        log("<Compressor> Pressure level: " + compressor.getPressureSwitchValue() + "PSI");
     }
 
     @Override
     public void enable() {
-        // TODO: Set Solenoid Channels
+        // TODO: Set Compressor Channels
         compressor = new Compressor(0); // Initialize compressor
         compressor.setClosedLoopControl(true); // Start compressor
         super.enable();

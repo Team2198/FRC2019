@@ -1,4 +1,4 @@
-package frc.robot.systems.shooter;
+package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.ParadigmSystem;
