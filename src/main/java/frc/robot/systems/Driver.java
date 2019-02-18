@@ -3,6 +3,7 @@ package frc.robot.systems;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.systems.ParadigmSystem;
@@ -28,12 +29,12 @@ public class Driver extends ParadigmSystem {
     public void enable() {
         // TODO: Set PWMs
         // PWM for Leftside motors
-        PWMTalonSRX top_Left = new PWMTalonSRX(2);
-        PWMTalonSRX bottom_Left = new PWMTalonSRX(2);
+        VictorSP top_Left = new VictorSP(2);
+        VictorSP bottom_Left = new VictorSP(2);
 
         // PWM for Rightside motors
-        PWMTalonSRX top_Right = new PWMTalonSRX(2);
-        PWMTalonSRX bottom_Right = new PWMTalonSRX(2);
+        VictorSP top_Right = new VictorSP(2);
+        VictorSP bottom_Right = new VictorSP(2);
 
         // LR SpeedControllers
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
