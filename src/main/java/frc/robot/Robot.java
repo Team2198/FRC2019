@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,7 +23,7 @@ import frc.robot.systems.Shooter;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot { // TODO: INTEGRATE SYSTEMS
+public class Robot extends TimedRobot { // TODO: INTEGRATE SYSTEMS
 
     // Selector vars
     private static final String kDefaultAuto = "Default";

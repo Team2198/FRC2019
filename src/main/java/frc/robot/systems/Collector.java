@@ -1,21 +1,22 @@
-package frc.robot.systems.Vision;
+package frc.robot.systems;
 
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.ParadigmSystem;
 
-public class LimeLightVision extends ParadigmSystem {
+public class Collector extends ParadigmSystem {
 
-    public LimeLightVision(XboxController controller) {
-        super("Limelight Vision", controller);
+    public Collector(XboxController controller) {
+        super("Collector", controller);
     }
 
     @Override
     public void update() {
-        // TODO: ADD VISION
     }
 
     @Override
     public void enable() {
+        PWMTalonSRX collector = new PWMTalonSRX(5);
         super.enable();
     }
 
