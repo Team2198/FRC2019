@@ -23,7 +23,7 @@ public class Ramp extends ParadigmSystem {
 
     @Override
     public void enable() {
-        rampPWM = new PWMTalonSRX(Constants.collectorPWM);
+        rampPWM = new PWMTalonSRX(Constants.rampPWM);
         super.enable();
     }
 
