@@ -4,12 +4,14 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants;
 import frc.robot.systems.ParadigmSystem;
 
 public class Hatch extends ParadigmSystem {
 
     private Compressor compressor;
-    private DoubleSolenoid[] solenoids = {new DoubleSolenoid(1, 2), new DoubleSolenoid(2, 3)}; // TODO: Set Solenoid Channels
+    private DoubleSolenoid[] solenoids = {new DoubleSolenoid(Constants.solenoid_forwardChannel[1], Constants.solenoid_forwardChannel[1]),
+            new DoubleSolenoid(Constants.solenoid_forwardChannel[2], Constants.solenoid_reverseChannel[2])};
 
     public Hatch(XboxController controller) {
         super("Hatch", controller);
@@ -39,8 +41,7 @@ public class Hatch extends ParadigmSystem {
 
     @Override
     public void enable() {
-        // TODO: Set Compressor Channels
-        compressor = new Compressor(0); // Initialize compressor
+        compressor = new Compressor(Constants.compressorChannel); // Initialize compressor
         compressor.setClosedLoopControl(true); // Start compressor
         super.enable();
     }

@@ -2,6 +2,7 @@ package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants;
 import frc.robot.systems.ParadigmSystem;
 
 public class Shooter extends ParadigmSystem {
@@ -17,7 +18,7 @@ public class Shooter extends ParadigmSystem {
 
     @Override
     public void enable() {
-        PWMTalonSRX shooter = new PWMTalonSRX(3);
+        PWMTalonSRX shooter = new PWMTalonSRX(Constants.shooterPWM);
         super.enable();
     }
 

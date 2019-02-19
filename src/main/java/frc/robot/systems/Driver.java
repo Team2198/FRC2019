@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.Constants;
 import frc.robot.systems.ParadigmSystem;
 
 public class Driver extends ParadigmSystem {
@@ -26,14 +27,13 @@ public class Driver extends ParadigmSystem {
 
     @Override
     public void enable() {
-        // TODO: Set PWMs
-        // PWM for Leftside motors
-        VictorSP top_Left = new VictorSP(1);
-        VictorSP bottom_Left = new VictorSP(2);
+        // Left-side motors
+        VictorSP top_Left = new VictorSP(Constants.drive_Top_Left);
+        VictorSP bottom_Left = new VictorSP(Constants.drive_Bottom_Left);
 
-        // PWM for Rightside motors
-        VictorSP top_Right = new VictorSP(3);
-        VictorSP bottom_Right = new VictorSP(4);
+        // Right-side motors
+        VictorSP top_Right = new VictorSP(Constants.drive_Top_Right);
+        VictorSP bottom_Right = new VictorSP(Constants.drive_Bottom_Right);
 
         // LR SpeedControllers
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);

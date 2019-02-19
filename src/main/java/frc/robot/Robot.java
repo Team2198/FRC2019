@@ -17,13 +17,10 @@ import frc.robot.systems.Hatch;
 import frc.robot.systems.Shooter;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
+ * @author Ali Shariatmadari, Erfan Ghafoori
  */
-public class Robot extends TimedRobot { // TODO: INTEGRATE SYSTEMS
+
+public class Robot extends TimedRobot {
 
     // Selector vars
     private static final String kDefaultAuto = "Default";
