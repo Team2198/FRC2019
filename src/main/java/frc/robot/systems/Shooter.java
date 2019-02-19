@@ -7,23 +7,30 @@ import frc.robot.systems.ParadigmSystem;
 
 public class Shooter extends ParadigmSystem {
 
+    PWMTalonSRX shooter;
+
     public Shooter(XboxController controller) {
         super("Shooter", controller);
     }
 
     @Override
     public void update() {
-
+        if (controller.getYButtonPressed()){
+            shooter.set(1); // Activate shooter
+        } else if (controller.getYButtonReleased()){
+            shooter.set(0); // Disable shooter
+        }
     }
 
     @Override
     public void enable() {
-        PWMTalonSRX shooter = new PWMTalonSRX(Constants.shooterPWM);
+        shooter = new PWMTalonSRX(Constants.shooterPWM);
         super.enable();
     }
 
     @Override
     public void disable() {
+        shooter.disable();
         super.disable();
     }
 }
