@@ -1,17 +1,17 @@
 package frc.robot.systems;
 
+import com.ctre.phoenix.CANifier;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
-import frc.robot.systems.ParadigmSystem;
 
 public class Hatch extends ParadigmSystem {
 
     private Compressor compressor;
-    private DoubleSolenoid[] solenoids = {new DoubleSolenoid(Constants.solenoid_forwardChannel[1], Constants.solenoid_forwardChannel[1]),
-            new DoubleSolenoid(Constants.solenoid_forwardChannel[2], Constants.solenoid_reverseChannel[2])};
+    /*private DoubleSolenoid[] solenoids = {new DoubleSolenoid(Constants.SOLENOID_FORWARD[1], Constants.SOLENOID_FORWARD[1]),
+            new DoubleSolenoid(Constants.SOLENOID_FORWARD[2], Constants.SOLENOID_REVERSE[2])};*/
 
     public Hatch(XboxController controller) {
         super("Hatch", controller);
@@ -21,7 +21,7 @@ public class Hatch extends ParadigmSystem {
     public void update() {
         // TODO: Better implementation ?
         // Hatch Mechanism
-        if (controller.getBumper(GenericHID.Hand.kLeft)) { // Left Bumper is pressed
+        /*if (controller.getBumper(GenericHID.Hand.kLeft)) { // Left Bumper is pressed
             // hatch is extended
             solenoids[0].set(DoubleSolenoid.Value.kForward);
             solenoids[1].set(DoubleSolenoid.Value.kForward);
@@ -33,7 +33,7 @@ public class Hatch extends ParadigmSystem {
             // Turn off solenoids
             solenoids[0].set(DoubleSolenoid.Value.kOff);
             solenoids[1].set(DoubleSolenoid.Value.kOff);
-        }
+        }*/
 
         log("<Compressor> Status: " + compressor.getClosedLoopControl());
         log("<Compressor> Pressure level: " + compressor.getPressureSwitchValue() + "PSI");
@@ -41,7 +41,7 @@ public class Hatch extends ParadigmSystem {
 
     @Override
     public void enable() {
-        compressor = new Compressor(Constants.compressorChannel); // Initialize compressor
+        compressor = new Compressor(Constants.COMPRESSOR_PIN); // Initialize compressor
         compressor.setClosedLoopControl(true); // Start compressor
         super.enable();
     }

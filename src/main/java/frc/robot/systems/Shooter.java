@@ -1,13 +1,13 @@
 package frc.robot.systems;
 
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
-import frc.robot.systems.ParadigmSystem;
 
 public class Shooter extends ParadigmSystem {
 
-    PWMTalonSRX shooter;
+    TalonSRX shooter;
 
     public Shooter(XboxController controller) {
         super("Shooter", controller);
@@ -15,22 +15,23 @@ public class Shooter extends ParadigmSystem {
 
     @Override
     public void update() {
-        if (controller.getYButtonPressed()){
-            shooter.set(1); // Activate shooter
-        } else if (controller.getYButtonReleased()){
-            shooter.set(0); // Disable shooter
+        if (controller.getYButtonPressed()) {
+            shooter.set(ControlMode.PercentOutput, 0.97); // Activate shooter
+        } else if (controller.getYButtonReleased()) {
+            shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         }
     }
 
     @Override
     public void enable() {
-        shooter = new PWMTalonSRX(Constants.shooterPWM);
+        shooter = new TalonSRX(Constants.SHOOTER_PWM);
+        shooter.set(ControlMode.PercentOutput, 0);
         super.enable();
     }
 
     @Override
     public void disable() {
-        shooter.disable();
+        shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         super.disable();
     }
 }

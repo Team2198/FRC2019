@@ -1,22 +1,20 @@
 package frc.robot;
 
-public class Constants { // TODO: Assign Correct Constants
+public class Constants {
 
     //pwm
-    public static int drive_Top_Right = 3;
-    public static int drive_Top_Left = 1;
-    public static int drive_Bottom_Right = 4;
-    public static int drive_Bottom_Left = 2;
+    public static final int DRIVE_TOP_RIGHT = 1;
+    public static final int DRIVE_TOP_LEFT = 3;
+    public static final int DRIVE_BOTTOM_RIGHT = 2;
+    public static final int DRIVE_BOTTOM_LEFT = 4;
 
     //can
-    public static int shooterPWM = 1;
-    public static int collectorPWM = 2;
+    public static final int SHOOTER_PWM = 3;
+    public static final int COLLECTOR_PWM = 2;
+    public static final int RAMP_PWM = 1;
 
     //pneumatics
-    public static int solenoid_forwardChannel[] = {2, 3};
-    public static int solenoid_reverseChannel[] = {4, 5};
-    public static int compressorChannel = 0;
-
-    // Ramp
-    public static int rampPWM = 0;
+    public static final int SOLENOID_FORWARD[] = {0, 0};
+    public static final int SOLENOID_REVERSE[] = {1, 1};
+    public static final int COMPRESSOR_PIN = 0;
 }

@@ -1,12 +1,14 @@
 package frc.robot.systems;
 
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 public class Ramp extends ParadigmSystem {
 
-    PWMTalonSRX rampPWM;
+    TalonSRX ramp;
 
     public Ramp(XboxController controller) {
         super("Ramp", controller);
@@ -14,22 +16,19 @@ public class Ramp extends ParadigmSystem {
 
     @Override
     public void update() {
-        if (controller.getAButtonPressed()){
-            rampPWM.set(1); // Deploy Ramp
-        } else if (controller.getAButtonReleased()){
-            rampPWM.set(0); // Rollback Ramp
-        }
+        double xSpeed = controller.getY(Hand.kLeft);
+        ramp.set(ControlMode.PercentOutput, xSpeed); // Rollback Ramp
     }
 
     @Override
     public void enable() {
-        rampPWM = new PWMTalonSRX(Constants.rampPWM);
+        ramp = new TalonSRX(Constants.RAMP_PWM);
+        ramp.setInverted(true);
         super.enable();
     }
 
     @Override
     public void disable() {
-        rampPWM.disable();
         super.disable();
     }
 }

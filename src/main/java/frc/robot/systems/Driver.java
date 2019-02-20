@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
-import frc.robot.systems.ParadigmSystem;
 
 public class Driver extends ParadigmSystem {
 
@@ -28,12 +27,12 @@ public class Driver extends ParadigmSystem {
     @Override
     public void enable() {
         // Left-side motors
-        VictorSP top_Left = new VictorSP(Constants.drive_Top_Left);
-        VictorSP bottom_Left = new VictorSP(Constants.drive_Bottom_Left);
+        VictorSP top_Left = new VictorSP(Constants.DRIVE_TOP_LEFT);
+        VictorSP bottom_Left = new VictorSP(Constants.DRIVE_BOTTOM_LEFT);
 
         // Right-side motors
-        VictorSP top_Right = new VictorSP(Constants.drive_Top_Right);
-        VictorSP bottom_Right = new VictorSP(Constants.drive_Bottom_Right);
+        VictorSP top_Right = new VictorSP(Constants.DRIVE_TOP_RIGHT);
+        VictorSP bottom_Right = new VictorSP(Constants.DRIVE_BOTTOM_RIGHT);
 
         // LR SpeedControllers
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);

@@ -8,13 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.systems.ParadigmSystem;
+import frc.robot.systems.Ramp;
 import frc.robot.systems.Driver;
 import frc.robot.systems.Hatch;
 import frc.robot.systems.Shooter;
+import frc.robot.systems.Collector;
 
 /**
  * @author Ali Shariatmadari, Erfan Ghafoori
@@ -23,16 +23,17 @@ import frc.robot.systems.Shooter;
 public class Robot extends TimedRobot {
 
     // Selector vars
-    private static final String kDefaultAuto = "Default";
+    /*private static final String kDefaultAuto = "Default";
     private static final String kCustomAuto = "My Auto";
     private String m_autoSelected;
-    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private final SendableChooser<String> m_chooser = new SendableChooser<>();*/
 
-    private XboxController controller = new XboxController(0); // TODO: Set Controller Port
-    ParadigmSystem[] systems = {new Driver(controller), new Hatch(controller), new Shooter(controller)};
+    private XboxController controller = new XboxController(0);
+    private XboxController controller2 = new XboxController(1);
+    ParadigmSystem[] systems = {new Driver(controller), new Ramp(controller2), new Shooter(controller2), new Collector(controller2), new Hatch(controller2)};
 
 
-    private Timer autoTimer;
+    //private Timer autoTimer;
 
     @Override
     public void robotInit() { // Initialize Robot
@@ -70,7 +71,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autoTimer = new Timer(); // Initialize autonomous timer
+       /* autoTimer = new Timer(); // Initialize autonomous timer
         autoTimer.start(); // Start timer
 
         m_autoSelected = m_chooser.getSelected();
@@ -81,7 +82,7 @@ public class Robot extends TimedRobot {
             //  drive.tankDrive(-0.2, -0.2, false);
         } else {
             //  drive.stopMotor();
-        }
+        }*/
     }
 
     /**
@@ -89,7 +90,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        switch (m_autoSelected) {
+        /*switch (m_autoSelected) {
             case kCustomAuto:
                 // Put custom auto code here
                 break;
@@ -97,7 +98,7 @@ public class Robot extends TimedRobot {
             default:
                 // Put default auto code here
                 break;
-        }
+        }*/
     }
 
     /**

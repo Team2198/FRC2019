@@ -1,13 +1,13 @@
 package frc.robot.systems;
 
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
-import frc.robot.systems.ParadigmSystem;
 
 public class Collector extends ParadigmSystem {
 
-    PWMTalonSRX collector;
+    TalonSRX collector;
 
     public Collector(XboxController controller) {
         super("Collector", controller);
@@ -15,22 +15,23 @@ public class Collector extends ParadigmSystem {
 
     @Override
     public void update() {
-        if (controller.getXButtonPressed()){
-            collector.set(1); // Activate intake
-        } else if (controller.getXButtonReleased()){
-            collector.set(0);
+        if (controller.getXButtonPressed()) {
+            collector.set(ControlMode.PercentOutput, 0.97); // Activate Intake
+        } else if (controller.getXButtonReleased()) {
+            collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         }
     }
 
     @Override
     public void enable() {
-        collector = new PWMTalonSRX(Constants.collectorPWM);
+        collector = new TalonSRX(Constants.COLLECTOR_PWM);
+        collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         super.enable();
     }
 
     @Override
     public void disable() {
-        collector.disable();
+        collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         super.disable();
     }
 }
