@@ -14,7 +14,7 @@ public class Constants {
     public static final int RAMP_PWM = 1;
 
     //pneumatics
-    public static final int SOLENOID_FORWARD[] = {1, 1};
-    public static final int SOLENOID_REVERSE[] = {2, 2};
+    public static final int SOLENOID_FORWARD[] = {2, 4};
+    public static final int SOLENOID_REVERSE[] = {3, 5};
     public static final int COMPRESSOR_PIN = 0;
 }
