@@ -17,4 +17,5 @@ public class Constants {
     public static final int SOLENOID_FORWARD[] = {2, 4};
     public static final int SOLENOID_REVERSE[] = {3, 5};
     public static final int COMPRESSOR_PIN = 0;
+    public static final int SOLENOIDS_PIN = 2;
 }
