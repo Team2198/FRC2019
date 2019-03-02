@@ -7,7 +7,7 @@ import frc.robot.Constants;
 
 public class Shooter extends ParadigmSystem {
 
-    TalonSRX shooter;
+    private TalonSRX shooter;
 
     public Shooter(XboxController controller) {
         super("Shooter", controller);

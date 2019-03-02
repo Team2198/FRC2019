@@ -15,18 +15,23 @@ public class Hatch extends ParadigmSystem {
 
     @Override
     public void update() {
-        // TODO: Controller Change?
         // Hatch Mechanism
         if (controller.getBumperPressed(GenericHID.Hand.kLeft)) { // Left Bumper is pressed
-            // hatch is extended
-            gripper.set(DoubleSolenoid.Value.kForward);
+            grab();
         } else if (controller.getBumperReleased(GenericHID.Hand.kLeft)) { // If either bumper is released
-            // Turn off solenoids
-            gripper.set(DoubleSolenoid.Value.kReverse);
-            gripper.set(DoubleSolenoid.Value.kOff);
+            release();
         }
 
         log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
+    }
+
+    public void grab(){
+        gripper.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void release(){
+        gripper.set(DoubleSolenoid.Value.kReverse);
+        gripper.set(DoubleSolenoid.Value.kOff);
     }
 
     @Override

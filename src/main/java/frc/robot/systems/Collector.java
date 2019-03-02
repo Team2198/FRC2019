@@ -7,7 +7,7 @@ import frc.robot.Constants;
 
 public class Collector extends ParadigmSystem {
 
-    TalonSRX collector;
+    private TalonSRX collector;
 
     public Collector(XboxController controller) {
         super("Collector", controller);

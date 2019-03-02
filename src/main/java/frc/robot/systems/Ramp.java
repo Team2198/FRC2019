@@ -2,14 +2,19 @@ package frc.robot.systems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 public class Ramp extends ParadigmSystem {
 
-    TalonSRX ramp;
+    private TalonSRX ramp;
+    private boolean deploying = false;
+    private double position = 0;
+    private Counter rampCounter;
+
+    private static final double GROUND_POS = 2;
 
     public Ramp(XboxController controller) {
         super("Ramp", controller);
@@ -17,19 +22,27 @@ public class Ramp extends ParadigmSystem {
 
     @Override
     public void update() {
+        updatePos();
         if (!controller.getXButtonReleased()) return;
         deployRamp();
     }
 
-    private void deployRamp(){
-        Timer ramper = new Timer();
-        ramper.start();
-        double xSpeed = 1;
-        while (ramper.get() < 2) {
-            // Smooth downward motion
-            xSpeed -= 0.01;
-            xSpeed = xSpeed * xSpeed;
-                    ramp.set(ControlMode.PercentOutput, xSpeed); // Rollback Ramp
+    // Smooth deployment
+    private void deployRamp() {
+        deploying = true;
+        double speed = 0.997;
+        while (deploying) {
+            speed -= position / 10;
+            ramp.set(ControlMode.PercentOutput, speed); // Rollback Ramp
+        }
+    }
+
+    private void updatePos() {
+        if (!deploying) return;
+        position += rampCounter.get();
+        rampCounter.reset();
+        if (position >= GROUND_POS) {
+            deploying = false;
         }
     }
 
@@ -37,6 +50,7 @@ public class Ramp extends ParadigmSystem {
     public void enable() {
         ramp = new TalonSRX(Constants.RAMP_PWM);
         ramp.setInverted(true);
+        rampCounter = new Counter(new DigitalInput(1));
         super.enable();
     }
 
