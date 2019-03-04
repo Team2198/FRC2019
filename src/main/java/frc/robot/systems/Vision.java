@@ -12,7 +12,7 @@ public class Vision extends ParadigmSystem {
 
     private Driver drive;
     private Hatch hatch;
-
+        
     private NetworkTable table;
     private NetworkTableEntry tx;
     private NetworkTableEntry ty;
