@@ -18,8 +18,14 @@ public class Driver extends ParadigmSystem {
         double xSpeed = controller.getY(GenericHID.Hand.kLeft);
         double zRotation = controller.getX(GenericHID.Hand.kRight);
         boolean quickTurn = controller.getStickButton(GenericHID.Hand.kRight);
-        drive.curvatureDrive(xSpeed, zRotation, quickTurn);
-    }
+
+        if (xSpeed == 0) {
+            zRotation = zRotation * 0.8;
+            drive.tankDrive(zRotation, -zRotation);
+        } else {
+            drive.curvatureDrive(xSpeed, zRotation, quickTurn);
+        }
+        }
 
     @Override
     public void enable() {

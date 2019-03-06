@@ -51,9 +51,8 @@ public class Hatch extends ParadigmSystem {
     @Override
     public void disable() {
         //hatchReleasePistons.set(DoubleSolenoid.Value.kReverse);
-        gripper.set(DoubleSolenoid.Value.kReverse);
+        gripper.set(DoubleSolenoid.Value.kForward);
         //hatchReleasePistons.set(DoubleSolenoid.Value.kOff);
-        gripper.set(DoubleSolenoid.Value.kOff);
         super.disable();
     }
 }
