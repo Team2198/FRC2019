@@ -16,7 +16,7 @@ public class Collector extends ParadigmSystem {
     @Override
     public void update() {
         if (controller.getXButtonPressed()) {
-            collector.set(ControlMode.PercentOutput, 0.97); // Activate Intake
+            collector.set(ControlMode.PercentOutput, 0.2); // Activate Intake
         } else if (controller.getXButtonReleased()) {
             collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         }
@@ -24,7 +24,8 @@ public class Collector extends ParadigmSystem {
 
     @Override
     public void enable() {
-        collector = new TalonSRX(Constants.COLLECTOR_PWM);
+        collector = new TalonSRX(Constants.INTAKE_PWM);
+        collector.setInverted(true);
         collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         super.enable();
     }

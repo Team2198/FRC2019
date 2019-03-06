@@ -16,7 +16,7 @@ public class Shooter extends ParadigmSystem {
     @Override
     public void update() {
         if (controller.getYButtonPressed()) {
-            shooter.set(ControlMode.PercentOutput, 0.97); // Activate shooter
+            shooter.set(ControlMode.PercentOutput, 0.5); // Activate shooter
         } else if (controller.getYButtonReleased()) {
             shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         }

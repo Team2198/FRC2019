@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
@@ -22,9 +23,12 @@ public class Ramp extends ParadigmSystem {
 
     @Override
     public void update() {
-        updatePos();
-        if (!controller.getXButtonReleased()) return;
-        deployRamp();
+        double speed = controller.getY(GenericHID.Hand.kLeft);
+        ramp.set(ControlMode.PercentOutput, speed);
+        
+        /*updatePos();
+        if (!controller.getAButtonReleased()) return;
+        deployRamp();*/
     }
 
     // Smooth deployment
@@ -33,6 +37,16 @@ public class Ramp extends ParadigmSystem {
         double speed = 0.997;
         while (deploying) {
             speed -= position / 10;
+            ramp.set(ControlMode.PercentOutput, speed); // Rollout Ramp
+        }
+    }
+
+    // Smooth retraction
+    private void retractRamp() {
+        deploying = true;
+        double speed = 0.0;
+        while (deploying) {
+            speed += position / 10;
             ramp.set(ControlMode.PercentOutput, speed); // Rollback Ramp
         }
     }

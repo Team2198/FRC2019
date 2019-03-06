@@ -9,12 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.systems.ParadigmSystem;
-import frc.robot.systems.Ramp;
-import frc.robot.systems.Driver;
-import frc.robot.systems.Hatch;
-import frc.robot.systems.Shooter;
-import frc.robot.systems.Collector;
+import frc.robot.systems.*;
 
 /**
  * @author Ali Shariatmadari, Erfan Ghafoori
@@ -30,7 +25,9 @@ public class Robot extends TimedRobot {
 
     private XboxController controller = new XboxController(0);
     private XboxController controller2 = new XboxController(1);
-    ParadigmSystem[] systems = {new Driver(controller), new Ramp(controller2), new Shooter(controller2), new Collector(controller2), new Hatch(controller2)};
+    private Driver drive = new Driver(controller);
+    private Hatch hatch = new Hatch(controller2);
+    ParadigmSystem[] systems = {drive, hatch, /*new Ramp(controller2),*/ new Shooter(controller2), new Collector(controller2), new Vision(controller2, drive, hatch)};
 
 
     //private Timer autoTimer;

@@ -1,9 +1,6 @@
 package frc.robot.systems;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 
@@ -31,8 +28,8 @@ public class Driver extends ParadigmSystem {
         VictorSP bottom_Left = new VictorSP(Constants.DRIVE_BOTTOM_LEFT);
 
         // Right-side motors
-        VictorSP top_Right = new VictorSP(Constants.DRIVE_TOP_RIGHT);
-        VictorSP bottom_Right = new VictorSP(Constants.DRIVE_BOTTOM_RIGHT);
+        Talon top_Right = new Talon(Constants.DRIVE_TOP_RIGHT);
+        Talon bottom_Right = new Talon(Constants.DRIVE_BOTTOM_RIGHT);
 
         // LR SpeedControllers
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
