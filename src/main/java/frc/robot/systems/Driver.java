@@ -7,6 +7,7 @@ import frc.robot.Constants;
 public class Driver extends ParadigmSystem {
 
     private DifferentialDrive drive;
+    private final double TURN_SENSE = 0.675;
 
     public Driver(XboxController controller) {
         super("Driver", controller);
@@ -19,9 +20,8 @@ public class Driver extends ParadigmSystem {
         double zRotation = controller.getX(GenericHID.Hand.kRight);
         boolean quickTurn = controller.getStickButton(GenericHID.Hand.kRight);
 
-        if (xSpeed == 0) {
-            zRotation = zRotation * 0.8;
-            drive.tankDrive(zRotation, -zRotation);
+        if (Math.abs(xSpeed) < 0.1) {
+            drive.tankDrive(zRotation * TURN_SENSE, -zRotation * TURN_SENSE);
         } else {
             drive.curvatureDrive(xSpeed, zRotation, quickTurn);
         }
