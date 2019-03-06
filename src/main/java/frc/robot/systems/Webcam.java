@@ -1,6 +1,8 @@
 package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.CameraServer;
+
 
 public class Webcam extends ParadigmSystem {
 
@@ -10,6 +12,8 @@ public class Webcam extends ParadigmSystem {
 
     @Override
     public void update() {
+        //idk where this goes rn xd
+        CameraServer.getInstance().startAutomaticCapture();
 
     }
 
