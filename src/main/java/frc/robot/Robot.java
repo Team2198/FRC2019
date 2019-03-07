@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     private XboxController controller2 = new XboxController(1);
     private Driver drive = new Driver(controller);
     private Hatch hatch = new Hatch(controller2);
-    ParadigmSystem[] systems = {drive, hatch, /*new Ramp(controller2),*/ new Shooter(controller2), new Vision(controller2, drive, hatch)};
+    ParadigmSystem[] systems = {drive, hatch, new Ramp(controller2), new Shooter(controller2), new Vision(controller2, drive, hatch)};
 
 
     //private Timer autoTimer;

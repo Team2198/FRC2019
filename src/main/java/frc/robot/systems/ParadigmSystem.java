@@ -24,6 +24,10 @@ public abstract class ParadigmSystem {
     public void disable(){
         log("Disabled!");
     }
+    public void restart(){
+        disable();
+        enable();
+    }
 
     protected void log(Object data){
         String logged = "<" + name + "> " + data;

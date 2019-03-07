@@ -1,6 +1,7 @@
 package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants;
 
 public class Hatch extends ParadigmSystem {
@@ -16,7 +17,7 @@ public class Hatch extends ParadigmSystem {
     @Override
     public void update() {
         // Hatch Mechanism
-        if (controller.getBButtonPressed()) { // Left Bumper is pressed
+        if (controller.getBumperPressed(Hand.kRight)) { // Left Bumper is pressed
             grab();
         } else if (controller.getAButtonPressed()) { // If either bumper is released
             release();

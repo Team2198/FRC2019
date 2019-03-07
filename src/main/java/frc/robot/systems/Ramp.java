@@ -15,7 +15,7 @@ public class Ramp extends ParadigmSystem {
     private double position = 0;
     private Counter rampCounter;
 
-    private static final double GROUND_POS = 2;
+    private static final double GROUND_POS = 90;
 
     public Ramp(XboxController controller) {
         super("Ramp", controller);
@@ -37,7 +37,7 @@ public class Ramp extends ParadigmSystem {
         double speed = 0.997;
         while (deploying) {
             speed -= position / 10;
-            ramp.set(ControlMode.PercentOutput, speed); // Rollout Ramp
+            ramp.set(ControlMode.PercentOutput, speed); // Roll out Ramp
         }
     }
 
@@ -65,11 +65,13 @@ public class Ramp extends ParadigmSystem {
         ramp = new TalonSRX(Constants.RAMP_PWM);
         ramp.setInverted(true);
         rampCounter = new Counter(new DigitalInput(1));
+        ramp.set(ControlMode.PercentOutput, 0);
         super.enable();
     }
 
     @Override
     public void disable() {
+        ramp.set(ControlMode.PercentOutput, 0);
         super.disable();
     }
 }
