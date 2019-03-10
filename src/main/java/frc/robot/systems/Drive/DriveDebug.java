@@ -1,8 +1,9 @@
-package frc.robot.systems;
+package frc.robot.systems.Drive;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
+import frc.robot.systems.ParadigmSystem;
 
 public class DriveDebug extends ParadigmSystem {
 

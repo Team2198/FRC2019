@@ -21,15 +21,6 @@ public class Shooter extends ParadigmSystem {
     @Override
     public void update() {
         shooter();
-        if (controller.getXButtonPressed()) {
-            collector.set(ControlMode.PercentOutput, 0.99); // Activate Intake
-        } else if (controller.getXButtonReleased()) {
-            collector.set(ControlMode.PercentOutput, 0); // Disable Intake
-        } else if (controller.getBackButtonPressed()) {
-            collector.set(ControlMode.PercentOutput, -0.3); // Activate Outtake
-        } else if (controller.getBackButtonReleased()) {
-            collector.set(ControlMode.PercentOutput, 0); // Disable Outtake
-        }
         intake();
         //log(collector.getMotorOutputVoltage());
         //macro();
@@ -37,7 +28,7 @@ public class Shooter extends ParadigmSystem {
 
     private void shooter() {
         if (controller.getYButtonPressed()) {
-            shooter.set(ControlMode.PercentOutput, 0.9); // Activate shooter
+            shooter.set(ControlMode.PercentOutput, 0.99); // Activate shooter
         } else if (controller.getYButtonReleased()) {
             shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         } else if (controller.getStartButtonPressed()) {
@@ -72,7 +63,15 @@ public class Shooter extends ParadigmSystem {
     }
 
     private void intake() {
-
+        if (controller.getXButtonPressed()) {
+            collector.set(ControlMode.PercentOutput, 0.9); // Activate Intake
+        } else if (controller.getXButtonReleased()) {
+            collector.set(ControlMode.PercentOutput, 0); // Disable Intake
+        } else if (controller.getBackButtonPressed()) {
+            collector.set(ControlMode.PercentOutput, -0.4); // Activate Outtake
+        } else if (controller.getBackButtonReleased()) {
+            collector.set(ControlMode.PercentOutput, 0); // Disable Outtake
+        }
     }
 
     @Override

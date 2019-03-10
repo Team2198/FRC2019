@@ -1,6 +1,7 @@
 package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants;
 
 public class Hatch extends ParadigmSystem {
@@ -17,9 +18,15 @@ public class Hatch extends ParadigmSystem {
     public void update() {
         // Hatch Mechanism
         if (controller.getBButtonPressed()) { // Left Bumper is pressed
+            log("B pressed, grabbing");
             grab();
         } else if (controller.getAButtonPressed()) { // If either bumper is released
+            log("A pressed, releasing");
             release();
+        } else if (controller.getBumperPressed(Hand.kRight)){
+            pushOut();
+        } else if (controller.getBumperPressed(Hand.kLeft)){
+            pullIn();
         }
 
         //log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
@@ -33,6 +40,14 @@ public class Hatch extends ParadigmSystem {
         gripper.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public void pushOut(){
+        hatchReleasePistons.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void pullIn(){
+        hatchReleasePistons.set(DoubleSolenoid.Value.kReverse);
+    }
+
     @Override
     public void enable() {
         compressor = new Compressor(Constants.PCM_PIN); // Initialize compressor
@@ -40,11 +55,10 @@ public class Hatch extends ParadigmSystem {
 
         // Initialize release mechanism
         hatchReleasePistons = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[0], Constants.SOLENOID_REVERSE[0]);
-        hatchReleasePistons.set(DoubleSolenoid.Value.kReverse);
+        //hatchReleasePistons.set(DoubleSolenoid.Value.kReverse);
 
         // Initialize gripper mechanism
-        //gripper = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[1], Constants.SOLENOID_REVERSE[1]);
-        gripper = new DoubleSolenoid(Constants.PCM_PIN, 6, 1);
+        gripper = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[1], Constants.SOLENOID_REVERSE[1]);
         super.enable();
     }
 

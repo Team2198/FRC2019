@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.*;
+import frc.robot.systems.Drive.Driver;
 
 /**
  * @author Ali Shariatmadari, Erfan Ghafoori
@@ -40,7 +41,6 @@ public class Robot extends TimedRobot {
     /* m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
-
 
        //CameraServer.getInstance().startAutomaticCapture();
         for (ParadigmSystem system : systems) { // Enable systems

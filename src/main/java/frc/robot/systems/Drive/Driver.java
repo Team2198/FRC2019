@@ -1,13 +1,16 @@
-package frc.robot.systems;
+package frc.robot.systems.Drive;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
+import frc.robot.systems.ParadigmSystem;
 
 public class Driver extends ParadigmSystem {
 
     private BandAidDrive drive;
-    private final double TURN_SENSE = 0.675;
+    private SpeedControllerGroup leftMotors;
+    private SpeedControllerGroup rightMotors;
+
+    private final double TURN_SENSE = 0.635;
 
     public Driver(XboxController controller) {
         super("Driver", controller);
@@ -17,18 +20,15 @@ public class Driver extends ParadigmSystem {
     public void update() {
         // Curvature drive
         double xSpeed = controller.getY(GenericHID.Hand.kLeft);
-        double zRotation = -controller.getX(GenericHID.Hand.kRight);
+        double zRotation = controller.getX(GenericHID.Hand.kRight);
 
         if (Math.abs(xSpeed) < 0.1) {
-            drive.tankDrive(zRotation * TURN_SENSE, -zRotation * TURN_SENSE);
+            drive.tankDrive(-zRotation * TURN_SENSE, zRotation * TURN_SENSE);
         } else {
             drive.curvatureDrive(xSpeed, zRotation);
         }
-
-        log("xSpeed = " + xSpeed);
-        log("zRotation = " + zRotation);
     }
-    
+
     @Override
     public void enable() {
         // Left-side motors
@@ -40,18 +40,13 @@ public class Driver extends ParadigmSystem {
         Talon bottom_Right = new Talon(Constants.DRIVE_BOTTOM_RIGHT);
 
         // LR SpeedControllers
-        SpeedControllerGroup leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
-        SpeedControllerGroup rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
+        leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
+        rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
         leftMotors.setInverted(true);
         rightMotors.setInverted(true);
 
         drive = new BandAidDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
         super.enable();
-        /**
-         * 
-         * 
-         * 
-         */
     }
 
     @Override
