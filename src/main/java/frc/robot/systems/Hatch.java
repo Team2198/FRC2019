@@ -1,7 +1,6 @@
 package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants;
 
 public class Hatch extends ParadigmSystem {
@@ -17,7 +16,7 @@ public class Hatch extends ParadigmSystem {
     @Override
     public void update() {
         // Hatch Mechanism
-        if (controller.getBumperPressed(Hand.kRight)) { // Left Bumper is pressed
+        if (controller.getBButtonPressed()) { // Left Bumper is pressed
             grab();
         } else if (controller.getAButtonPressed()) { // If either bumper is released
             release();
@@ -28,24 +27,24 @@ public class Hatch extends ParadigmSystem {
 
     public void grab(){
         gripper.set(DoubleSolenoid.Value.kForward);
-        //gripper.set(DoubleSolenoid.Value.kOff);
     }
 
     public void release(){
         gripper.set(DoubleSolenoid.Value.kReverse);
-        //gripper.set(DoubleSolenoid.Value.kOff);
     }
 
     @Override
     public void enable() {
-        compressor = new Compressor(Constants.PDP_PIN); // Initialize compressor
-        compressor.setClosedLoopControl(true); // Start compressor
+        compressor = new Compressor(Constants.PCM_PIN); // Initialize compressor
+        compressor.setClosedLoopControl(true); // Start compressor              
+
         // Initialize release mechanism
-        //hatchReleasePistons = new DoubleSolenoid(Constants.PDP_PIN, Constants.SOLENOID_FORWARD[0], Constants.SOLENOID_REVERSE[0]);
-        //hatchReleasePistons.set(DoubleSolenoid.Value.kForward);
+        hatchReleasePistons = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[0], Constants.SOLENOID_REVERSE[0]);
+        hatchReleasePistons.set(DoubleSolenoid.Value.kReverse);
 
         // Initialize gripper mechanism
-        gripper = new DoubleSolenoid(Constants.SOLENOID_FORWARD[1], Constants.SOLENOID_REVERSE[1]);
+        //gripper = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[1], Constants.SOLENOID_REVERSE[1]);
+        gripper = new DoubleSolenoid(Constants.PCM_PIN, 6, 1);
         super.enable();
     }
 

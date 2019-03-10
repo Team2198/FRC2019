@@ -21,9 +21,34 @@ public class Shooter extends ParadigmSystem {
     @Override
     public void update() {
         shooter();
+        if (controller.getXButtonPressed()) {
+            collector.set(ControlMode.PercentOutput, 0.99); // Activate Intake
+        } else if (controller.getXButtonReleased()) {
+            collector.set(ControlMode.PercentOutput, 0); // Disable Intake
+        } else if (controller.getBackButtonPressed()) {
+            collector.set(ControlMode.PercentOutput, -0.3); // Activate Outtake
+        } else if (controller.getBackButtonReleased()) {
+            collector.set(ControlMode.PercentOutput, 0); // Disable Outtake
+        }
         intake();
-        macro();
+        //log(collector.getMotorOutputVoltage());
+        //macro();
     }
+
+    private void shooter() {
+        if (controller.getYButtonPressed()) {
+            shooter.set(ControlMode.PercentOutput, 0.9); // Activate shooter
+        } else if (controller.getYButtonReleased()) {
+            shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
+        } else if (controller.getStartButtonPressed()) {
+            shooter.set(ControlMode.PercentOutput, -0.3); // Activate shooter
+        } else if (controller.getStartButtonReleased()) {
+            shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
+        }
+    }
+    /**
+     * 
+     */
 
     private void macro() {
         if (controller.getBumperPressed(GenericHID.Hand.kRight) && !shooting) {
@@ -33,38 +58,21 @@ public class Shooter extends ParadigmSystem {
             do {
                 if (t.get() < 0.3) {
                     collector.set(ControlMode.PercentOutput, -0.9); // Activate Intake
-                    shooter.set(ControlMode.PercentOutput, -0.5); // Activate shooter
+                    shooter.set(ControlMode.PercentOutput, -0.35); // Activate shooter
                 } else if (t.get() < 1.0) {
                     shooter.set(ControlMode.PercentOutput, 0.95); // Activate shooter
-                    collector.set(ControlMode.PercentOutput, 0.9); // Activate Intake
+                    if (t.get() > 0.6) {
+                        collector.set(ControlMode.PercentOutput, 0.9); // Activate Intake
+                    }
                 }
             } while (!t.hasPeriodPassed(0.3));
             shooting = false;
-        }
-    }
 
-    private void shooter() {
-        if (controller.getYButtonPressed()) {
-            shooter.set(ControlMode.PercentOutput, 0.9); // Activate shooter
-        } else if (controller.getYButtonReleased()) {
-            shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
-        } else if (controller.getPOV(90) != -1) {
-            shooter.set(ControlMode.PercentOutput, -0.3); // Activate shooter
-        } else if (controller.getPOV(90) == -1) {
-            shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         }
     }
 
     private void intake() {
-        if (controller.getXButtonPressed()) {
-            collector.set(ControlMode.PercentOutput, 0.9); // Activate Intake
-        } else if (controller.getXButtonReleased()) {
-            collector.set(ControlMode.PercentOutput, 0); // Disable Intake
-        } else if (controller.getPOV(270) != -1) {
-            collector.set(ControlMode.PercentOutput, -0.3); // Activate Outtake
-        } else if (controller.getPOV(270) == -1) {
-            collector.set(ControlMode.PercentOutput, 0); // Disable Outtake
-        }
+
     }
 
     @Override

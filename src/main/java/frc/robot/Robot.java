@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.*;
 
@@ -27,10 +29,10 @@ public class Robot extends TimedRobot {
     private XboxController controller2 = new XboxController(1);
     private Driver drive = new Driver(controller);
     private Hatch hatch = new Hatch(controller2);
-    ParadigmSystem[] systems = {drive, hatch, new Ramp(controller2), new Shooter(controller2), new Vision(controller2, drive, hatch)};
+    ParadigmSystem[] systems = {drive, hatch, new Ramp(controller2), new Shooter(controller2)};
 
 
-    //private Timer autoTimer;
+    private Timer autoTimer;
 
     @Override
     public void robotInit() { // Initialize Robot
@@ -39,6 +41,8 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
 
+
+       //CameraServer.getInstance().startAutomaticCapture();
         for (ParadigmSystem system : systems) { // Enable systems
             system.enable();
         }
@@ -68,18 +72,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-       /* autoTimer = new Timer(); // Initialize autonomous timer
+        autoTimer = new Timer(); // Initialize autonomous timer
         autoTimer.start(); // Start timer
 
-        m_autoSelected = m_chooser.getSelected();
+        //m_autoSelected = m_chooser.getSelected();
         // autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-        System.out.println("Auto selected: " + m_autoSelected);
+        //System.out.println("Auto selected: " + m_autoSelected)
+        
 
-        if (autoTimer.get() < 3.0) {
-            //  drive.tankDrive(-0.2, -0.2, false);
-        } else {
-            //  drive.stopMotor();
-        }*/
     }
 
     /**
@@ -96,6 +96,8 @@ public class Robot extends TimedRobot {
                 // Put default auto code here
                 break;
         }*/
+
+       teleopPeriodic();
     }
 
     /**

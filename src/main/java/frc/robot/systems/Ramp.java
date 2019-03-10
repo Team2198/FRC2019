@@ -25,11 +25,11 @@ public class Ramp extends ParadigmSystem {
     public void update() {
         double speed = controller.getY(GenericHID.Hand.kLeft);
         ramp.set(ControlMode.PercentOutput, speed);
-        
+    }    
         /*updatePos();
         if (!controller.getAButtonReleased()) return;
         deployRamp();*/
-    }
+
 
     // Smooth deployment
     private void deployRamp() {
