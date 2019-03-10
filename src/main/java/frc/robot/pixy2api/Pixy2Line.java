@@ -1,4 +1,4 @@
-package io.github.pseudoresonance.pixy2api;
+package frc.robot.pixy2api;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;

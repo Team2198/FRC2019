@@ -1,7 +1,7 @@
-package io.github.pseudoresonance.pixy2api.links;
+package frc.robot.pixy2api.links;
 
 import edu.wpi.first.wpilibj.SPI;
-import io.github.pseudoresonance.pixy2api.Pixy2.Checksum;
+import frc.robot.pixy2api.Pixy2.Checksum;
 
 /**
  * Java Port of Pixy2 Arduino Library

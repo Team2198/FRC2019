@@ -24,8 +24,10 @@ public class Hatch extends ParadigmSystem {
             log("A pressed, releasing");
             release();
         } else if (controller.getBumperPressed(Hand.kRight)){
+            log("BackRight pressed, pushing");
             pushOut();
         } else if (controller.getBumperPressed(Hand.kLeft)){
+            log("BackLeft pressed, pulling");
             pullIn();
         }
 
