@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
     private Hatch hatch = new Hatch(controller2);
     ParadigmSystem[] systems = {drive, hatch, new Ramp(controller2), new Shooter(controller2)};
 
-
     private Timer autoTimer;
 
     @Override
@@ -43,10 +42,14 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
 
-       //CameraServer.getInstance().startAutomaticCapture();
+       CameraServer.getInstance().startAutomaticCapture();
         for (ParadigmSystem system : systems) { // Enable systems
             system.enable();
         }
+    }
+
+    @Override
+    public void teleopInit() {
     }
 
     @Override
@@ -74,7 +77,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autoTimer = new Timer(); // Initialize autonomous timer
-        autoTimer.start(); // Start timer
+        //autoTimer.start(); // Start timer
 
         //m_autoSelected = m_chooser.getSelected();
         // autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
@@ -97,7 +100,6 @@ public class Robot extends TimedRobot {
                 // Put default auto code here
                 break;
         }*/
-
        teleopPeriodic();
     }
 
