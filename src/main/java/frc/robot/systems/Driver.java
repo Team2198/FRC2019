@@ -6,7 +6,7 @@ import frc.robot.Constants;
 
 public class Driver extends ParadigmSystem {
 
-    private DifferentialDrive drive;
+    private BandAidDrive drive;
     private final double TURN_SENSE = 0.675;
 
     public Driver(XboxController controller) {
@@ -22,7 +22,7 @@ public class Driver extends ParadigmSystem {
         if (Math.abs(xSpeed) < 0.1) {
             drive.tankDrive(zRotation * TURN_SENSE, -zRotation * TURN_SENSE);
         } else {
-            drive.curvatureDrive(xSpeed, zRotation, false);
+            drive.curvatureDrive(xSpeed, zRotation);
         }
 
         log("xSpeed = " + xSpeed);
@@ -45,7 +45,7 @@ public class Driver extends ParadigmSystem {
         leftMotors.setInverted(true);
         rightMotors.setInverted(true);
 
-        drive = new DifferentialDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
+        drive = new BandAidDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
         super.enable();
         /**
          * 
@@ -60,7 +60,7 @@ public class Driver extends ParadigmSystem {
         super.disable();
     }
 
-    public DifferentialDrive getDrive() {
+    public BandAidDrive getDrive() {
         return drive;
     }
 }
