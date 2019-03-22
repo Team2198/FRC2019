@@ -28,11 +28,11 @@ public class Shooter extends ParadigmSystem {
 
     private void shooter() {
         if (controller.getYButtonPressed()) {
-            shooter.set(ControlMode.PercentOutput, 0.99); // Activate shooter
+            shooter.set(ControlMode.PercentOutput, -0.99); // Activate shooter
         } else if (controller.getYButtonReleased()) {
             shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         } else if (controller.getStartButtonPressed()) {
-            shooter.set(ControlMode.PercentOutput, -0.3); // Activate shooter
+            shooter.set(ControlMode.PercentOutput, 0.3); // Activate shooter
         } else if (controller.getStartButtonReleased()) {
             shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         }

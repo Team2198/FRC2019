@@ -33,11 +33,13 @@ public class Driver extends ParadigmSystem {
     public void enable() {
         // Left-side motors
         VictorSP top_Left = new VictorSP(Constants.DRIVE_TOP_LEFT);
+        VictorSP extra_Left = new VictorSP(Constants.DRIVE_EXTRA_LEFT);
         VictorSP bottom_Left = new VictorSP(Constants.DRIVE_BOTTOM_LEFT);
 
         // Right-side motors
-        Talon top_Right = new Talon(Constants.DRIVE_TOP_RIGHT);
-        Talon bottom_Right = new Talon(Constants.DRIVE_BOTTOM_RIGHT);
+        VictorSP top_Right = new VictorSP(Constants.DRIVE_TOP_RIGHT);
+        VictorSP extra_Right = new VictorSP(Constants.DRIVE_EXTRA_RIGHT);
+        VictorSP bottom_Right = new VictorSP(Constants.DRIVE_BOTTOM_RIGHT);
 
         // LR SpeedControllers
         leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);

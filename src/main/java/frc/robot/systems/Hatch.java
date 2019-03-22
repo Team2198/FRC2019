@@ -17,10 +17,10 @@ public class Hatch extends ParadigmSystem {
     @Override
     public void update() {
         // Hatch Mechanism
-        if (controller.getBButtonPressed()) { // Left Bumper is pressed
+        if (controller.getBButtonPressed()) {
             log("B pressed, grabbing");
             grab();
-        } else if (controller.getAButtonPressed()) { // If either bumper is released
+        } else if (controller.getAButtonPressed()) {
             log("A pressed, releasing");
             release();
         } else if (controller.getBumperPressed(Hand.kRight)){
@@ -35,11 +35,11 @@ public class Hatch extends ParadigmSystem {
     }
 
     public void grab(){
-        gripper.set(DoubleSolenoid.Value.kForward);
+        gripper.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void release(){
-        gripper.set(DoubleSolenoid.Value.kReverse);
+        gripper.set(DoubleSolenoid.Value.kForward);
     }
 
     public void pushOut(){
