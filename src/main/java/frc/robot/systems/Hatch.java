@@ -35,11 +35,11 @@ public class Hatch extends ParadigmSystem {
     }
 
     public void grab(){
-        gripper.set(DoubleSolenoid.Value.kReverse);
+        gripper.set(DoubleSolenoid.Value.kForward);
     }
 
     public void release(){
-        gripper.set(DoubleSolenoid.Value.kForward);
+        gripper.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void pushOut(){

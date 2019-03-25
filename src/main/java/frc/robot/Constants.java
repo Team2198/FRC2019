@@ -18,8 +18,8 @@ public class Constants {
     public static final int RAMP_PWM = 2;
 
     //pneumatics
-    public static final int SOLENOID_FORWARD[] = {6, 0};
-    public static final int SOLENOID_REVERSE[] = {7, 1};
+    public static final int SOLENOID_FORWARD[] = {6, 1};
+    public static final int SOLENOID_REVERSE[] = {7, 0};
     public static final int PCM_PIN = 0;
     public static final int UART = 19200;
  }
