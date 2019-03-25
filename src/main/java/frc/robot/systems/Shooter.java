@@ -37,9 +37,6 @@ public class Shooter extends ParadigmSystem {
             shooter.set(ControlMode.PercentOutput, 0); // Disable shooter
         }
     }
-    /**
-     * 
-     */
 
     private void macro() {
         if (controller.getBumperPressed(GenericHID.Hand.kRight) && !shooting) {
@@ -58,7 +55,6 @@ public class Shooter extends ParadigmSystem {
                 }
             } while (!t.hasPeriodPassed(0.3));
             shooting = false;
-
         }
     }
 

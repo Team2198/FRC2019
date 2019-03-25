@@ -12,7 +12,7 @@ public class Constants {
         public static final int DRIVE_BOTTOM_LEFT = 4;
 
     //can
-    public static final int SHOOTER_PWM = 4;
+    public static final int SHOOTER_PWM = 5;
 
     public static final int INTAKE_PWM = 4;
     public static final int RAMP_PWM = 2;

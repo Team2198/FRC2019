@@ -31,15 +31,15 @@ public class Hatch extends ParadigmSystem {
             pullIn();
         }
 
-        //log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
+       //log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
     }
 
     public void grab(){
-        gripper.set(DoubleSolenoid.Value.kForward);
+        gripper.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void release(){
-        gripper.set(DoubleSolenoid.Value.kReverse);
+        gripper.set(DoubleSolenoid.Value.kForward);
     }
 
     public void pushOut(){
