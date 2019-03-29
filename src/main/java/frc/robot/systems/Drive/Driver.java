@@ -42,8 +42,8 @@ public class Driver extends ParadigmSystem {
         VictorSP bottom_Right = new VictorSP(Constants.DRIVE_BOTTOM_RIGHT);
 
         // LR SpeedControllers
-        leftMotors = new SpeedControllerGroup(top_Left, bottom_Left);
-        rightMotors = new SpeedControllerGroup(top_Right, bottom_Right);
+        leftMotors = new SpeedControllerGroup(top_Left, extra_Left, bottom_Left);
+        rightMotors = new SpeedControllerGroup(top_Right, extra_Right, bottom_Right);
         leftMotors.setInverted(true);
         rightMotors.setInverted(true);
 

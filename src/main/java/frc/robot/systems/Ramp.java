@@ -62,7 +62,7 @@ public class Ramp extends ParadigmSystem {
 
     @Override
     public void enable() {
-        ramp = new TalonSRX(Constants.RAMP_PWM);
+        ramp = new TalonSRX(Constants.RAMP_ID);
         ramp.setInverted(true);
         rampCounter = new Counter(new DigitalInput(1));
         ramp.set(ControlMode.PercentOutput, 0);

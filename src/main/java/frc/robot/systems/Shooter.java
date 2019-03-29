@@ -54,7 +54,7 @@ public class Shooter extends ParadigmSystem {
                     }
                 }
             } while (!t.hasPeriodPassed(0.3));
-            shooting = false;
+            shooting = false;   
         }
     }
 
@@ -72,9 +72,9 @@ public class Shooter extends ParadigmSystem {
 
     @Override
     public void enable() {
-        shooter = new TalonSRX(Constants.SHOOTER_PWM);
+        shooter = new TalonSRX(Constants.SHOOTER_ID);
         shooter.set(ControlMode.PercentOutput, 0);
-        collector = new TalonSRX(Constants.INTAKE_PWM);
+        collector = new TalonSRX(Constants.INTAKE_ID);
         collector.setInverted(true);
         collector.set(ControlMode.PercentOutput, 0); // Disable Intake
         super.enable();

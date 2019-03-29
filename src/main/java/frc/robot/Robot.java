@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser); */
 
-       //CameraServer.getInstance().startAutomaticCapture();
+       CameraServer.getInstance().startAutomaticCapture();
         for (ParadigmSystem system : systems) { // Enable systems
             system.enable();
         }
