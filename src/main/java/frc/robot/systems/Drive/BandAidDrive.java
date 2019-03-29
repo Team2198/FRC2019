@@ -221,6 +221,95 @@ public class BandAidDrive extends RobotDriveBase {
         feed();
     }
 
+      /**
+   * Curvature drive method for differential drive platform.
+   *
+   * <p>The rotation argument controls the curvature of the robot's path rather than its rate of
+   * heading change. This makes the robot more controllable at high speeds. Also handles the
+   * robot's quick turn functionality - "quick turn" overrides constant-curvature turning for
+   * turn-in-place maneuvers.
+   *
+   * @param xSpeed      The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+   * @param zRotation   The robot's rotation rate around the Z axis [-1.0..1.0]. Clockwise is
+   *                    positive.
+   * @param isQuickTurn If set, overrides constant-curvature turning for
+   *                    turn-in-place maneuvers.
+   */
+  @SuppressWarnings({"ParameterName", "PMD.CyclomaticComplexity"})
+  public void curvatureDrive(double xSpeed, double zRotation, boolean isQuickTurn) {
+    if (!m_reported) {
+      HAL.report(tResourceType.kResourceType_RobotDrive, 2,
+                 tInstances.kRobotDrive2_DifferentialCurvature);
+      m_reported = true;
+    }
+
+    if (xSpeed < -0.1){
+        zRotation = -zRotation;
+    }
+
+    xSpeed = limit(xSpeed);
+    xSpeed = applyDeadband(xSpeed, m_deadband);
+
+    zRotation = limit(zRotation);
+    zRotation = applyDeadband(zRotation, m_deadband);
+    
+    double angularPower;
+    boolean overPower;
+
+    if (isQuickTurn) {
+      if (Math.abs(xSpeed) < m_quickStopThreshold) {
+        m_quickStopAccumulator = (1 - m_quickStopAlpha) * m_quickStopAccumulator
+            + m_quickStopAlpha * limit(zRotation) * 2;
+      }
+      overPower = true;
+      angularPower = zRotation;
+    } else {
+      overPower = false;
+      angularPower = Math.abs(xSpeed) * zRotation - m_quickStopAccumulator;
+
+      if (m_quickStopAccumulator > 1) {
+        m_quickStopAccumulator -= 1;
+      } else if (m_quickStopAccumulator < -1) {
+        m_quickStopAccumulator += 1;
+      } else {
+        m_quickStopAccumulator = 0.0;
+      }
+    }
+
+    double leftMotorOutput = xSpeed + angularPower;
+    double rightMotorOutput = xSpeed - angularPower;
+
+    // If rotation is overpowered, reduce both outputs to within acceptable range
+    if (overPower) {
+      if (leftMotorOutput > 1.0) {
+        rightMotorOutput -= leftMotorOutput - 1.0;
+        leftMotorOutput = 1.0;
+      } else if (rightMotorOutput > 1.0) {
+        leftMotorOutput -= rightMotorOutput - 1.0;
+        rightMotorOutput = 1.0;
+      } else if (leftMotorOutput < -1.0) {
+        rightMotorOutput -= leftMotorOutput + 1.0;
+        leftMotorOutput = -1.0;
+      } else if (rightMotorOutput < -1.0) {
+        leftMotorOutput -= rightMotorOutput + 1.0;
+        rightMotorOutput = -1.0;
+      }
+    }
+
+    // Normalize the wheel speeds
+    double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+    if (maxMagnitude > 1.0) {
+      leftMotorOutput /= maxMagnitude;
+      rightMotorOutput /= maxMagnitude;
+    }
+
+    m_leftMotor.set(leftMotorOutput * m_maxOutput);
+    m_rightMotor.set(rightMotorOutput * m_maxOutput * m_rightSideInvertMultiplier);
+
+    feed();
+  }
+
+
     /**
      * Curvature drive method for differential drive platform.
      *
@@ -267,6 +356,48 @@ public class BandAidDrive extends RobotDriveBase {
         feed();
     }
 
+    public void curvatureDriveRamped(double xSpeed, double zRotation) {
+        if (!m_reported) {
+            HAL.report(tResourceType.kResourceType_RobotDrive, 2, tInstances.kRobotDrive2_DifferentialCurvature);
+            m_reported = true;
+        }
+
+        if (xSpeed < -0.1){
+            zRotation = -zRotation;
+        }
+
+        xSpeed = limit(xSpeed);
+        xSpeed = applyDeadband(xSpeed, m_deadband);
+
+        zRotation = limit(zRotation);
+        zRotation = applyDeadband(zRotation, m_deadband);
+
+        double angularPower = Math.abs(xSpeed) * zRotation;
+        double leftMotorOutput = xSpeed + angularPower;
+        double rightMotorOutput = xSpeed - angularPower;
+
+        // Normalize the wheel speeds
+        double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+        if (maxMagnitude > 1.0) {
+            leftMotorOutput /= maxMagnitude;
+            rightMotorOutput /= maxMagnitude;
+        }
+
+        // Ramp Left side
+        double leftDifference = leftMotorOutput * m_maxOutput - m_leftMotor.get();
+        double leftDifferenceMagnitude = Math.min(Math.abs(leftDifference), 0.1);
+        leftMotorOutput = m_leftMotor.get() + Math.copySign(leftDifferenceMagnitude, leftDifference);
+        m_leftMotor.set(leftMotorOutput);
+
+        // Ramp Right side
+        double rightDifference = rightMotorOutput * m_maxOutput * m_rightSideInvertMultiplier - m_rightMotor.get();
+        double rightDifferenceMagnitude = Math.min(Math.abs(rightDifference), 0.1);
+        rightMotorOutput = m_rightMotor.get() + Math.copySign(rightDifferenceMagnitude, rightDifference);
+        m_rightMotor.set(rightMotorOutput);
+
+        feed();
+    }
+
     /**
      * Tank drive method for differential drive platform.
      * The calculated values will be squared to decrease sensitivity at low speeds.
@@ -278,6 +409,49 @@ public class BandAidDrive extends RobotDriveBase {
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
         tankDrive(leftSpeed, rightSpeed, true);
+    }
+
+    /**
+     * Tank drive method for differential drive platform.
+     *
+     * @param leftSpeed     The robot left side's speed along the X axis [-1.0..1.0]. Forward is
+     *                      positive.
+     * @param rightSpeed    The robot right side's speed along the X axis [-1.0..1.0]. Forward is
+     *                      positive.
+     * @param squareInputs If set, decreases the input sensitivity at low speeds.
+     */
+    public void tankDriveRamped(double leftSpeed, double rightSpeed, boolean squareInputs) {
+        if (!m_reported) {
+            HAL.report(tResourceType.kResourceType_RobotDrive, 2,
+                    tInstances.kRobotDrive2_DifferentialTank);
+            m_reported = true;
+        }
+
+        leftSpeed = limit(leftSpeed);
+        leftSpeed = applyDeadband(leftSpeed, m_deadband);
+
+        rightSpeed = limit(rightSpeed);
+        rightSpeed = applyDeadband(rightSpeed, m_deadband);
+
+        // Square the inputs (while preserving the sign) to increase fine control
+        // while permitting full power.
+        if (squareInputs) {
+            leftSpeed = Math.copySign(leftSpeed * leftSpeed, leftSpeed);
+            rightSpeed = Math.copySign(rightSpeed * rightSpeed, rightSpeed);
+        }
+
+        double leftDifference = leftSpeed * m_maxOutput - m_leftMotor.get();
+        double leftDifferenceMagnitude = Math.min(Math.abs(leftDifference), 0.1);
+        leftSpeed = m_leftMotor.get() + Math.copySign(leftDifferenceMagnitude, leftDifference);
+        m_leftMotor.set(leftSpeed);
+
+        // Ramp Right side
+        double rightDifference = rightSpeed * m_maxOutput * m_rightSideInvertMultiplier - m_rightMotor.get();
+        double rightDifferenceMagnitude = Math.min(Math.abs(rightDifference), 0.1);
+        rightSpeed = m_rightMotor.get() + Math.copySign(rightDifferenceMagnitude, rightDifference);
+        m_rightMotor.set(rightSpeed);
+
+        feed();
     }
 
     /**

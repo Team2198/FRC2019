@@ -9,14 +9,13 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.*;
-import frc.robot.systems.Drive.DriveDebug;
 import frc.robot.systems.Drive.Driver;
 
 /**
  * @author Ali Shariatmadari, Erfan Ghafoori
+ * FOR FRC 2019 Deep Space
  */
 
 public class Robot extends TimedRobot {
@@ -30,10 +29,10 @@ public class Robot extends TimedRobot {
     private XboxController controller = new XboxController(0);
     private XboxController controller2 = new XboxController(1);
     private Driver drive = new Driver(controller);
-    private Hatch hatch = new Hatch(controller2);
+    private Hatch hatch = new Hatch(controller, controller2);
     ParadigmSystem[] systems = {drive, hatch, new Ramp(controller2), new Shooter(controller2)};
 
-    private Timer autoTimer;
+    //private Timer autoTimer;
 
     @Override
     public void robotInit() { // Initialize Robot
@@ -64,7 +63,12 @@ public class Robot extends TimedRobot {
     }
 
     /**
-     * This autonomous (along with the chooser code above) shows how to select
+     * This 
+     * 
+     * 
+     * 
+     * 
+     * autonomous (along with the chooser code above) shows how to select
      * between different autonomous modes using the dashboard. The sendable
      * chooser code works with the Java SmartDashboard. If you prefer the
      * LabVIEW Dashboard, remove all of the chooser code and uncomment the
@@ -76,7 +80,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autoTimer = new Timer(); // Initialize autonomous timer
+        //autoTimer = new Timer(); // Initialize autonomous timer
         //autoTimer.start(); // Start timer
 
         //m_autoSelected = m_chooser.getSelected();
@@ -97,6 +101,7 @@ public class Robot extends TimedRobot {
                 break;
             case kDefaultAuto:
             default:
+
                 // Put default auto code here
                 break;
         }*/

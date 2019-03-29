@@ -6,28 +6,31 @@ import frc.robot.Constants;
 
 public class Hatch extends ParadigmSystem {
 
+    private XboxController controller2;
+
     private Compressor compressor;
     private DoubleSolenoid gripper;
     private DoubleSolenoid hatchReleasePistons;
 
-    public Hatch(XboxController controller) {
+    public Hatch(XboxController controller, XboxController controller2) {
         super("Hatch Gripper", controller);
+        this.controller2 = controller2; 
     }
 
     @Override
     public void update() {
         // Hatch Mechanism
-        if (controller.getBButtonPressed()) {
-            log("B pressed, grabbing");
+        if (controller.getBumperPressed(Hand.kRight)) {
+            log("Player 1 Pressed Right Bumper, Grabbing Hatch!");
             grab();
-        } else if (controller.getAButtonPressed()) {
-            log("A pressed, releasing");
+        } else if (controller.getBumperPressed(Hand.kLeft)) {
+            log("Player 1 Pressed Left Bumper, Releasing Hatch!");
             release();
-        } else if (controller.getBumperPressed(Hand.kRight)){
-            log("BackRight pressed, pushing");
+        } else if (controller2.getBumperPressed(Hand.kRight)){
+            log("Player 2 Pressed Right Bumper, Pushing Hatch Mechanism!");
             pushOut();
-        } else if (controller.getBumperPressed(Hand.kLeft)){
-            log("BackLeft pressed, pulling");
+        } else if (controller2.getBumperPressed(Hand.kLeft)){
+            log("Player 2 pressed Left Bumper, Pulling Hatch Mechanism!");
             pullIn();
         }
 

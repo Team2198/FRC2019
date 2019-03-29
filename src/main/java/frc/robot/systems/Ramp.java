@@ -2,10 +2,12 @@ package frc.robot.systems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Ramp extends ParadigmSystem {
@@ -25,6 +27,7 @@ public class Ramp extends ParadigmSystem {
     public void update() {
         double speed = controller.getY(GenericHID.Hand.kLeft);
         ramp.set(ControlMode.PercentOutput, speed);
+        updatePos();
     }    
         /*updatePos();
         if (!controller.getAButtonReleased()) return;
@@ -44,7 +47,7 @@ public class Ramp extends ParadigmSystem {
     // Smooth retraction
     private void retractRamp() {
         deploying = true;
-        double speed = 0.0;
+        double speed = 0.0;     
         while (deploying) {
             speed += position / 10;
             ramp.set(ControlMode.PercentOutput, speed); // Rollback Ramp
@@ -52,18 +55,19 @@ public class Ramp extends ParadigmSystem {
     }
 
     private void updatePos() {
-        if (!deploying) return;
+        //if (!deploying) return;
         position += rampCounter.get();
         rampCounter.reset();
-        if (position >= GROUND_POS) {
-            deploying = false;
-        }
+        //if (position >= GROUND_POS) {
+          //  deploying = false;
+        //}
+        SmartDashboard.putNumber("Ramp Pos", position);
     }
 
     @Override
     public void enable() {
         ramp = new TalonSRX(Constants.RAMP_ID);
-        ramp.setInverted(true);
+        //ramp.setInverted(true);
         rampCounter = new Counter(new DigitalInput(1));
         ramp.set(ControlMode.PercentOutput, 0);
         super.enable();

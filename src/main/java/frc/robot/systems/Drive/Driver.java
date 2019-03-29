@@ -1,6 +1,7 @@
 package frc.robot.systems.Drive;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants;
 import frc.robot.systems.ParadigmSystem;
 
@@ -22,10 +23,17 @@ public class Driver extends ParadigmSystem {
         double xSpeed = controller.getY(GenericHID.Hand.kLeft);
         double zRotation = controller.getX(GenericHID.Hand.kRight);
 
+        //double triggerLeft = controller.getTriggerAxis(Hand.kLeft);
+        //double triggerRight = controller.getTriggerAxis(Hand.kRight);
         if (Math.abs(xSpeed) < 0.1) {
-            drive.tankDrive(-zRotation * TURN_SENSE, zRotation * TURN_SENSE);
+            drive.tankDriveRamped(-zRotation * TURN_SENSE, zRotation * TURN_SENSE, true);
+            /*if (triggerLeft > 0.1){
+                drive.tankDrive(-triggerLeft * TURN_SENSE, triggerLeft * TURN_SENSE);
+            } else if (triggerRight > 0.1){
+                drive.tankDrive(triggerRight * TURN_SENSE, -triggerRight * TURN_SENSE);
+            }*/
         } else {
-            drive.curvatureDrive(xSpeed, zRotation);
+            drive.curvatureDriveRamped(xSpeed, zRotation);
         }
     }
 
