@@ -61,7 +61,6 @@ public class Ramp extends ParadigmSystem {
         //if (position >= GROUND_POS) {
           //  deploying = false;
         //}
-        SmartDashboard.putNumber("Ramp Pos", position);
     }
 
     @Override

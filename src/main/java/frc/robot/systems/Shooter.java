@@ -43,7 +43,6 @@ public class Shooter extends ParadigmSystem {
             shooter.set(ControlMode.PercentOutput, -0.3); // Activate reverse shooter
         } else if (controller.getBButtonReleased()) {
             shooter.set(ControlMode.PercentOutput, 0); // Disable reverse shooter
-            shooter.getActiveTrajectoryArbFeedFwd();
         }
     }
 
