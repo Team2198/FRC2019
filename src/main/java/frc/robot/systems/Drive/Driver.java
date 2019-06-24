@@ -10,7 +10,7 @@ public class Driver extends ParadigmSystem {
     private SpeedControllerGroup leftMotors;
     private SpeedControllerGroup rightMotors;
 
-    private final double TURN_SENSE = 0.60;
+    private final double TURN_SENSE = 0.55;
 
     public Driver(XboxController controller) {
         super("Driver", controller);

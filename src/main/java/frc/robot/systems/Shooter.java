@@ -31,7 +31,7 @@ public class Shooter extends ParadigmSystem {
         shooter();
         intake();
         //log(collector.getMotorOutputVoltage());
-        macro();
+        //macro();
     }
 
     private void shooter() {

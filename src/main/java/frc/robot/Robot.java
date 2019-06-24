@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.systems.*;
 import frc.robot.systems.Drive.Driver;
+import frc.robot.systems.Climb;
 
 /**
  * @author Ali Shariatmadari, Erfan Ghafoori
@@ -20,7 +21,7 @@ import frc.robot.systems.Drive.Driver;
 
 public class Robot extends TimedRobot {
 
-    // Selector vars
+    // Selector vars                   
     /*private static final String kDefaultAuto = "Default";
     private static final String kCustomAuto = "My Auto";
     private String m_autoSelected;
@@ -30,21 +31,21 @@ public class Robot extends TimedRobot {
     private XboxController controller2 = new XboxController(1);
     private Driver drive = new Driver(controller);
     private Hatch hatch = new Hatch(controller, controller2);
-    ParadigmSystem[] systems = {drive, hatch, /*new Ramp(controller2),*/ new Shooter(controller2)};
+    private Climb climb = new Climb(controller2);
+    ParadigmSystem[] systems = {drive, hatch, /*new Ramp(controller2),*/ /*new Shooter(controller2)*/climb};
+
+    public Robot()
+    {
+        CameraServer.getInstance().startAutomaticCapture();
+    }
 
     //private Timer autoTimer;
 
     @Override
     public void robotInit() { // Initialize Robot
-
-    /* m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser); */
-
-       CameraServer.getInstance().startAutomaticCapture();
-        for (ParadigmSystem system : systems) { // Enable systems
-            system.enable();
-        }
+            systems[0].enable();
+            systems[1].enable();
+            systems[2].enable();
     }
 
     @Override
@@ -53,9 +54,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() { // Teleop UPS
-        for (ParadigmSystem system : systems) { // Update systems
-            system.update();
-        }
+        //for (ParadigmSystem system : systems) { // Update systems
+            systems[0].update();
+            systems[1].update();
+            systems[2].update();
+        //}
     }
 
     @Override
@@ -117,8 +120,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() { // Shutdown
-        for (ParadigmSystem system : systems) { // Disable systems
-            system.disable();
-        }
+        systems[0].disable();
+        systems[1].disable();
+        systems[2].disable();
     }
 }

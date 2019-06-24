@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants;
 
-public class Hatch extends ParadigmSystem {
+public class UltraHatch extends ParadigmSystem {
 
     private XboxController controller2;
 
@@ -12,8 +12,8 @@ public class Hatch extends ParadigmSystem {
     private DoubleSolenoid gripper;
     private DoubleSolenoid hatchReleasePistons;
 
-    public Hatch(XboxController controller, XboxController controller2) {
-        super("Hatch Gripper", controller);
+    public UltraHatch(XboxController controller, XboxController controller2) {
+        super("ULTRA Hatch Gripper", controller);
         this.controller2 = controller2; 
     }
 
@@ -21,28 +21,30 @@ public class Hatch extends ParadigmSystem {
     public void update() {
         // Hatch Mechanism
         if (controller.getBumperPressed(Hand.kRight)) {
-            //log("Player 1 Pressed Right Bumper, Grabbing Hatch!");
+            log("Player 1 Pressed Right Bumper, Grabbing Hatch!");
             grab();
         } else if (controller.getBumperPressed(Hand.kLeft)) {
-            //log("Player 1 Pressed Left Bumper, Releasing Hatch!");
+            log("Player 1 Pressed Left Bumper, Releasing Hatch!");
             release();
         } else if (controller2.getBumperPressed(Hand.kRight)){
-            //log("Player 2 Pressed Right Bumper, Pushing Hatch Mechanism!");
+            log("Player 2 Pressed Right Bumper, Pushing Hatch Mechanism!");
             pushOut();
         } else if (controller2.getBumperPressed(Hand.kLeft)){
-            //log("Player 2 pressed Left Bumper, Pulling Hatch Mechanism!");
+            log("Player 2 pressed Left Bumper, Pulling Hatch Mechanism!");
             pullIn();
         }
 
-       log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
+       //log("<Compressor> Pressure level: " + compressor.getCompressorCurrent() + "PSI");
     }
 
     public void grab(){
+        pushOut();
         gripper.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void release(){
         gripper.set(DoubleSolenoid.Value.kForward);
+        pullIn();
     }
 
     public void pushOut(){
