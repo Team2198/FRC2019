@@ -19,6 +19,7 @@ public class Shooter extends ParadigmSystem {
 
     private TalonSRX shooter;
     private TalonSRX collector;
+    
 
     private boolean shooting = false;
 

@@ -1,12 +1,13 @@
 package frc.robot.systems.Drive;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 import frc.robot.systems.ParadigmSystem;
 
 public class Driver extends ParadigmSystem {
 
-    private BandAidDrive drive;
+    private DifferentialDrive drive;
     private SpeedControllerGroup leftMotors;
     private SpeedControllerGroup rightMotors;
 
@@ -25,14 +26,14 @@ public class Driver extends ParadigmSystem {
         /*double triggerLeft = controller.getTriggerAxis(Hand.kLeft);
         double triggerRight = controller.getTriggerAxis(Hand.kRight);*/
         if (Math.abs(xSpeed) < 0.1) {
-            drive.tankDriveRamped(-zRotation * TURN_SENSE, zRotation * TURN_SENSE, true);
+            drive.tankDrive(-zRotation * TURN_SENSE, zRotation * TURN_SENSE, true);
            /* if (triggerLeft > 0.1){
                 drive.tankDrive(triggerLeft * TURN_SENSE, -triggerLeft * TURN_SENSE);
             } else if (triggerRight > 0.1){
                 drive.tankDrive(-triggerRight * TURN_SENSE, triggerRight * TURN_SENSE);
             }*/
         } else {
-            drive.curvatureDriveRamped(xSpeed, zRotation);
+            drive.curvatureDrive(xSpeed, zRotation, false);
         }
     }
 
@@ -54,7 +55,7 @@ public class Driver extends ParadigmSystem {
         leftMotors.setInverted(true);
         rightMotors.setInverted(true);
 
-        drive = new BandAidDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
+        drive = new DifferentialDrive(leftMotors, rightMotors); // Initialize DifferentialDrive
         super.enable();
     }
 
@@ -64,7 +65,7 @@ public class Driver extends ParadigmSystem {
         super.disable();
     }
 
-    public BandAidDrive getDrive() {
+    public DifferentialDrive getDrive() {
         return drive;
     }
 }
