@@ -14,7 +14,7 @@ public class Hatch extends ParadigmSystem {
 
     public Hatch(XboxController controller, XboxController controller2) {
         super("Hatch Gripper", controller);
-        this.controller2 = controller2; 
+        this.controller2 = controller2;
     }
 
     @Override

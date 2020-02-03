@@ -37,7 +37,7 @@ public class Climb extends ParadigmSystem {
     public void enable() {
         // Initialize climb mechanism
         climbPistons = new DoubleSolenoid(Constants.PCM_PIN, Constants.SOLENOID_FORWARD[2], Constants.SOLENOID_REVERSE[2]);
-        //climbPistons.set(DoubleSolenoid.Value.kReverse);
+        climbPistons.set(DoubleSolenoid.Value.kReverse);
         super.enable();
     }
 
